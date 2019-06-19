@@ -6,8 +6,6 @@ pip install --user chainer/
 
 pip install --user -e cupy/
 
-cd chainer
-
 export CUPY_DUMP_CUDA_SOURCE_ON_ERROR=1
 
 pytest_opts=(
@@ -31,10 +29,10 @@ fi
 
 pytest_opts+=(-m "${pytest_marks[*]}")
 
-python -m pytest "${pytest_opts[@]}" tests/chainer_tests
+python -m pytest "${pytest_opts[@]}" chainer/tests/chainer_tests
 
 # Submit coverage to Coveralls
-python ../push_coveralls.py
+python push_coveralls.py
 
 # Submit coverage to Codecov
 # Codecov uses `coverage.xml` generated from `.coverage`

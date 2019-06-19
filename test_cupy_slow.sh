@@ -2,8 +2,6 @@
 
 pip install --user -e cupy/
 
-cd cupy
-
 export CUPY_DUMP_CUDA_SOURCE_ON_ERROR=1
 
 pytest_opts=(
@@ -20,4 +18,4 @@ else
   pytest_opts+=(-m 'slow')
 fi
 
-python -m pytest "${pytest_opts[@]}" tests
+python -m pytest "${pytest_opts[@]}" cupy/tests

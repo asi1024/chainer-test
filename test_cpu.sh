@@ -3,8 +3,6 @@
 
 pip install --user -e chainer/
 
-cd chainer
-
 export CUPY_DUMP_CUDA_SOURCE_ON_ERROR=1
 
 export CHAINER_TEST_GPU_LIMIT=0
@@ -29,4 +27,4 @@ fi
 
 pytest_opts+=(-m "${pytest_marks[*]}")
 
-python -m pytest "${pytest_opts[@]}" tests/chainer_tests
+python -m pytest "${pytest_opts[@]}" chainer/tests/chainer_tests

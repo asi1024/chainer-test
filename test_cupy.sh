@@ -2,8 +2,6 @@
 
 pip install --user -e cupy/
 
-cd cupy
-
 export CUPY_DUMP_CUDA_SOURCE_ON_ERROR=1
 
 pytest_opts=(
@@ -20,10 +18,10 @@ else
   pytest_opts+=(-m 'not slow')
 fi
 
-python -m pytest "${pytest_opts[@]}" tests
+python -m pytest "${pytest_opts[@]}" cupy/tests
 
 # Submit coverage to Coveralls
-python ../push_coveralls.py
+python push_coveralls.py
 
 # Submit coverage to Codecov
 # Codecov uses `coverage.xml` generated from `.coverage`
