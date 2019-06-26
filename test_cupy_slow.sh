@@ -18,4 +18,11 @@ else
   pytest_opts+=(-m 'slow')
 fi
 
-python -m pytest "${pytest_opts[@]}" cupy/tests
+TESTS_DIR=${PWD}/cupy/tests
+
+# Move to temporary directory
+pushd `mktemp -d`
+
+python -m pytest "${pytest_opts[@]}" ${TESTS_DIR}
+
+popd

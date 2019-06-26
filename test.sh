@@ -29,7 +29,14 @@ fi
 
 pytest_opts+=(-m "${pytest_marks[*]}")
 
-python -m pytest "${pytest_opts[@]}" chainer/tests/chainer_tests
+TESTS_DIR=${PWD}/chainer/tests/chainer_tests
+
+# Move to temporary directory
+pushd `mktemp -d`
+
+python -m pytest "${pytest_opts[@]}" ${TESTS_DIR}
+
+popd
 
 # Submit coverage to Coveralls
 python push_coveralls.py
