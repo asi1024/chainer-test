@@ -1,10 +1,15 @@
 #!/bin/bash -ex
 
+CHAINER_TEST_ROOT=${PWD}
+
+# Move to temporary directory
+pushd `mktemp -d`
+
 # Chainer setup script installs specific version of CuPy.
 # We need to install Chainer first for test.
-pip install --user chainer/
+pip install --user ${CHAINER_TEST_ROOT}/chainer/
 
-pip install --user -e cupy/
+pip install --user -e ${CHAINER_TEST_ROOT}/cupy/
 
 export CUPY_DUMP_CUDA_SOURCE_ON_ERROR=1
 
@@ -32,11 +37,6 @@ fi
 
 pytest_opts+=(-m "${pytest_marks[*]}")
 
-TESTS_DIR=${PWD}/chainer/tests/chainer_tests
-
-# Move to temporary directory
-pushd `mktemp -d`
-
-python -m pytest "${pytest_opts[@]}" ${TESTS_DIR}
+python -m pytest "${pytest_opts[@]}" ${CHAINER_TEST_ROOT}/chainer/tests/chainer_tests
 
 popd

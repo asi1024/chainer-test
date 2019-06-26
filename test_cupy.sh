@@ -1,6 +1,11 @@
 #!/bin/bash -ex
 
-pip install --user -e cupy/
+CHAINER_TEST_ROOT=${PWD}
+
+# Move to temporary directory
+pushd `mktemp -d`
+
+pip install --user -e ${CHAINER_TEST_ROOT}/cupy/
 
 export CUPY_DUMP_CUDA_SOURCE_ON_ERROR=1
 
@@ -18,17 +23,14 @@ else
   pytest_opts+=(-m 'not slow')
 fi
 
-TESTS_DIR=${PWD}/cupy/tests
+python -m pytest "${pytest_opts[@]}" ${CHAINER_TEST_ROOT}/cupy/tests
 
-# Move to temporary directory
-pushd `mktemp -d`
-
-python -m pytest "${pytest_opts[@]}" ${TESTS_DIR}
+# Submit coverage to Coveralls
+python ${CHAINER_TEST_ROOT}/push_coveralls.py
 
 popd
 
-# Submit coverage to Coveralls
-python push_coveralls.py
+cd cupy
 
 # Submit coverage to Codecov
 # Codecov uses `coverage.xml` generated from `.coverage`

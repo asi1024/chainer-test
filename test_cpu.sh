@@ -1,7 +1,11 @@
 #!/bin/bash -e
 
+CHAINER_TEST_ROOT=${PWD}
 
-pip install --user -e chainer/
+# Move to temporary directory
+pushd `mktemp -d`
+
+pip install --user -e ${CHAINER_TEST_ROOT}/chainer/
 
 export CUPY_DUMP_CUDA_SOURCE_ON_ERROR=1
 
@@ -27,11 +31,6 @@ fi
 
 pytest_opts+=(-m "${pytest_marks[*]}")
 
-TESTS_DIR=${PWD}/chainer/tests/chainer_tests
-
-# Move to temporary directory
-pushd `mktemp -d`
-
-python -m pytest "${pytest_opts[@]}" ${TESTS_DIR}
+python -m pytest "${pytest_opts[@]}" ${CHAINER_TEST_ROOT}/chainer/tests/chainer_tests
 
 popd

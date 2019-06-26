@@ -1,6 +1,11 @@
 #!/bin/bash -ex
 
-pip install --user -e cupy/
+CHAINER_TEST_ROOT=${PWD}
+
+# Move to temporary directory
+pushd `mktemp -d`
+
+pip install --user -e ${CHAINER_TEST_ROOT}/cupy/
 
 export CUPY_DUMP_CUDA_SOURCE_ON_ERROR=1
 
@@ -18,11 +23,6 @@ else
   pytest_opts+=(-m 'slow')
 fi
 
-TESTS_DIR=${PWD}/cupy/tests
-
-# Move to temporary directory
-pushd `mktemp -d`
-
-python -m pytest "${pytest_opts[@]}" ${TESTS_DIR}
+python -m pytest "${pytest_opts[@]}" ${CHAINER_TEST_ROOT}/cupy/tests
 
 popd
