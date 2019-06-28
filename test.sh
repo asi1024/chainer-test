@@ -15,7 +15,7 @@ export CUPY_DUMP_CUDA_SOURCE_ON_ERROR=1
 
 pytest_opts=(
     --timeout=300
-    --junit-xml=result.xml
+    --junit-xml=${CHAINER_TEST_ROOT}/chainer/result.xml
     --cov
     --showlocals  # Show local variables on error
 )
@@ -36,12 +36,12 @@ pytest_opts+=(-m "${pytest_marks[*]}")
 
 python -m pytest "${pytest_opts[@]}" ${CHAINER_TEST_ROOT}/chainer/tests/chainer_tests
 
-# Submit coverage to Coveralls
-python ${CHAINER_TEST_ROOT}/push_coveralls.py
-
 popd
 
 cd chainer
+
+# Submit coverage to Coveralls
+python ../push_coveralls.py
 
 # Submit coverage to Codecov
 # Codecov uses `coverage.xml` generated from `.coverage`
